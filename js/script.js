@@ -96,21 +96,40 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// modal window pop-up
 
-	const modalTrigger = document.querySelector('[data-modal]'), //обращение к элементу чере дата атрибут
+	const modalTrigger = document.querySelectorAll('[data-modal]'), //обращение к элементу чере дата атрибут
 		  modal = document.querySelector('.modal'),
 		  modalCloseBtn = document.querySelector('[data-close]');
 
-	modalTrigger.addEventListener('click', () => {
-		modal.classList.add('show');			// добавляем стиль из ЦСС, там он прописан, меняет display block/none
-		modal.classList.remove('hide');
-		document.body.style.overflow = 'hidden'; //убрать прокрутку страницы за модальным окном
-	}); 		  
+	modalTrigger.forEach(btn => {
+		btn.addEventListener('click', () => {
+			modal.classList.add('show');			// добавляем стиль из ЦСС, там он прописан, меняет display block/none
+			modal.classList.remove('hide');
+			document.body.style.overflow = 'hidden'; //убрать прокрутку страницы за модальным окном
+		}); 	
+	});	  
 
-	modalCloseBtn.addEventListener('click', () => {
+	function closeModal() {
 		modal.classList.add('hide');
 		modal.classList.remove('show');
-		document.body.style.overflow = ''; // вернуть прокрутку страницы после закрытия модального окна
+		document.body.style.overflow = ''; 		 // вернуть прокрутку страницы после закрытия модального окна
 
-	}); 
+	}
+
+	modalCloseBtn.addEventListener('click', closeModal); 
+
+
+					// если кликаем во всю область modal и если НЕ КОНКРЕТНО в modal dialog тогда закрываем весь попап
+	modal.addEventListener('click', (e) => {       
+		if (e.target === modal) {
+			closeModal();
+		}
+	});
+
+
+	document.addEventListener('keydown', (e) => {
+		if (e.code === "Escape") {
+			closeModal();
+		}
+	});
 
 });
