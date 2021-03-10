@@ -223,5 +223,45 @@ window.addEventListener('DOMContentLoaded', () => {
 		'menu__item'
 	).render();
 
-	
+	// FORMS, here Am working with OPEN_SERVER (localhost)
+
+	const forms = document.querySelectorAll('form');
+
+	const message = {
+		loading: 'Загрузка',
+		success: 'Спасибо, скоро мы к вам вернемся',
+		failure: 'Шо-та ваще умерло'
+	};
+
+	forms.forEach(item => {
+		postData(item);
+	});
+
+	function postData(form) {
+		form.addEventListener('submit', (e) => {
+			e.preventDefault(); // отмена ребута страницы
+
+			const statusMessage = document.createElement('div'); //
+			statusMessage.classList.add('status'); // вывод сообщения из массива message
+			statusMessage.textContent = message.loading; //
+			form.append(statusMessage); //
+
+			const request = new XMLHttpRequest();
+			request.open('POST', 'server.php');
+
+			// request.setRequestHeader('Content-type', 'multipart/form-data'); не нужно отправлять в данном случае ЗАГОЛОВОК
+			const formData = new FormData(form); //легко конструировать наборы пар ключ-значение
+
+			request.send(formData); //отправляем объект formData
+			request.addEventListener('load', () => {
+				if (request.status === 200) {
+					console.log(request.response);
+					statusMessage.textContent = message.success; // сообщение из массива выше
+				} else {
+					statusMessage.textContent = message.failure; // сообщение неудачи
+				}
+			});
+
+		});
+	}
 });
