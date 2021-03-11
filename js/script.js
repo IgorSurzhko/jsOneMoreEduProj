@@ -246,14 +246,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
 			const formData = new FormData(form); //легко конструировать наборы пар ключ-значение
 
+			const object = {};
+			formData.forEach(function(value, key) {
+				object[key] = value;
+			});
+
 			// тут фетч апишка, запрос на сервер через урлу (fetch возвращает ПРОМИС)
 			fetch('server.php', {
 				method: "POST",
-				// headers: {
-				// 	'Content-type': 'application/json'
-				// },
-				body: formData
-			}).then(data => {
+				headers: {
+					'Content-type': 'application/json'
+				},
+				body: JSON.stringify(object)
+			})
+			.then(data => data.text())
+			.then(data => {
 				console.log(data);
 				showThanksModal(message.success); // сообщение из массива выше
 				statusMessage.remove();
