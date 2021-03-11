@@ -131,7 +131,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			closeModal();
 		}
 	});
-		const modalTimerId = setTimeout(openModal, 50000); // через 5 секунд показать пользователю модальное окно
+	const modalTimerId = setTimeout(openModal, 50000); // через 5 секунд показать пользователю модальное окно
 
 	function showModalByScroll() {
 		if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -242,27 +242,26 @@ window.addEventListener('DOMContentLoaded', () => {
 				display: block;
 				margin: 0 auto;
 			`; // доабвили ЦСС стили для спинера, инлайн стили
-			//form.append(statusMessage); //
-			form.insertAdjacentElement('afterend', statusMessage); // аналог
+			form.insertAdjacentElement('afterend', statusMessage); // аналог form.append(statusMessage);
 
-			const request = new XMLHttpRequest();
-			request.open('POST', 'server.php');
-
-			// request.setRequestHeader('Content-type', 'multipart/form-data'); не нужно отправлять в данном случае ЗАГОЛОВОК
 			const formData = new FormData(form); //легко конструировать наборы пар ключ-значение
 
-			request.send(formData); //отправляем объект formData
-			request.addEventListener('load', () => {
-				if (request.status === 200) {
-					console.log(request.response);
-					showThanksModal(message.success); // сообщение из массива выше
-					form.reset(); // очищаем форму
-						statusMessage.remove();
-				} else {
-					showThanksModal(message.failure); // сообщение неудачи
-				}
+			// тут фетч апишка, запрос на сервер через урлу (fetch возвращает ПРОМИС)
+			fetch('server.php', {
+				method: "POST",
+				// headers: {
+				// 	'Content-type': 'application/json'
+				// },
+				body: formData
+			}).then(data => {
+				console.log(data);
+				showThanksModal(message.success); // сообщение из массива выше
+				statusMessage.remove();
+			}).catch(() => {
+				showThanksModal(message.failure); // сообщение неудачи
+			}).finally(() => {
+				form.reset(); // очищаем форму
 			});
-
 		});
 	}
 
@@ -273,7 +272,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		openModal(); // открываем новую модалку
 
 		const thanksModal = document.createElement('div'); //формирование верстки новой модалки
-		thanksModal.classList.add('modal__dialog'); 
+		thanksModal.classList.add('modal__dialog');
 		thanksModal.innerHTML = `    
 			<div class="modal__content">
 				<div class="modal__close" data-close>&times;</div>	
