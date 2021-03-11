@@ -276,7 +276,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		thanksModal.classList.add('modal__dialog'); 
 		thanksModal.innerHTML = `    
 			<div class="modal__content">
-				<div class="modal__close" date-close>&times;</div>	
+				<div class="modal__close" data-close>&times;</div>	
 				<div class="modal__title">${message}</div>	
 			</div>
 		`; // выше новая верстка которую вставляем в модалку
