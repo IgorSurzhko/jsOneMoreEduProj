@@ -242,7 +242,8 @@ window.addEventListener('DOMContentLoaded', () => {
 				display: block;
 				margin: 0 auto;
 			`; // доабвили ЦСС стили для спинера, инлайн стили
-			form.append(statusMessage); //
+			//form.append(statusMessage); //
+			form.insertAdjacentElement('afterend', statusMessage); // аналог
 
 			const request = new XMLHttpRequest();
 			request.open('POST', 'server.php');
