@@ -229,16 +229,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	forms.forEach(item => {
 		bindPostData(item);
-	}); 
-
-	const postData = async (url, data) => {  //асинк - говорим что тут асинхронный код
+	});
+	// тут фетч апишка, запрос на сервер через урлу (fetch возвращает ПРОМИС)
+	const postData = async (url, data) => { //асинк - говорим что тут асинхронный код
 		const res = await fetch(url, { // операторы асинк и аваит всегда в паре, аваит говорит чего ждет асинк
 			method: "POST",
 			headers: {
 				'Content-type': 'application/json'
 			},
 			body: data
-		}); 
+		});
 
 		return await res.json(); //тоже ждать пока все преобразуется в жисон
 	};
@@ -261,29 +261,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
 			const formData = new FormData(form); //легко конструировать наборы пар ключ-значение
 
-			const object = {};
-			formData.forEach(function(value, key) {
-				object[key] = value;
-			});
+			const json = JSON.stringify(Object.fromEntries(formData.entries())); 
+			//entries преобразует объект в массив массивов [[...],[.....]]
+			//Object.fromEntries то что внутри преобразует в классический объект
+			//JSON.stringify делает формат жисон из того что внтури
 
-			// тут фетч апишка, запрос на сервер через урлу (fetch возвращает ПРОМИС)
-			fetch('server.php', {
-				method: "POST",
-				headers: {
-					'Content-type': 'application/json'
-				},
-				body: JSON.stringify(object)
-			})
-			.then(data => data.text())
-			.then(data => {
-				console.log(data);
-				showThanksModal(message.success); // сообщение из массива выше
-				statusMessage.remove();
-			}).catch(() => {
-				showThanksModal(message.failure); // сообщение неудачи
-			}).finally(() => {
-				form.reset(); // очищаем форму
-			});
+			postData('http://localhost:3000/requests', json)
+				.then(data => {
+					console.log(data);
+					showThanksModal(message.success); // сообщение из массива выше
+					statusMessage.remove();
+				}).catch(() => {
+					showThanksModal(message.failure); // сообщение неудачи
+				}).finally(() => {
+					form.reset(); // очищаем форму
+				});
 		});
 	}
 
@@ -312,7 +304,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		}, 4000);
 	}
 
-	fetch('http://localhost:3000/menu')
-		.then(data => data.json())
-		.then(res => console.log(res));
+	// fetch('http://localhost:3000/menu')
+	// 	.then(data => data.json())
+	// 	.then(res => console.log(res));
 });
