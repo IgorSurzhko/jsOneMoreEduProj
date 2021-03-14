@@ -228,10 +228,26 @@ window.addEventListener('DOMContentLoaded', () => {
 	};
 
 	forms.forEach(item => {
-		postData(item);
-	});
+		bindPostData(item);
+	}); 
 
-	function postData(form) {
+	const postData = async (url, data) => {  //асинк - говорим что тут асинхронный код
+		const res = await fetch(url, { // операторы асинк и аваит всегда в паре, аваит говорит чего ждет асинк
+			method: "POST",
+			headers: {
+				'Content-type': 'application/json'
+			},
+			body: data
+		}); 
+
+		return await res.json(); //тоже ждать пока все преобразуется в жисон
+	};
+
+
+
+
+
+	function bindPostData(form) {
 		form.addEventListener('submit', (e) => {
 			e.preventDefault(); // отмена ребута страницы
 
