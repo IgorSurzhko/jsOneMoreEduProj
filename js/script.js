@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	//Timer is ALIVE!!!!
 
-	const deadLine = '2021-03-10';
+	const deadLine = '2023-03-10';
 
 	function getTimeRemaining(endtime) {
 		const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -295,7 +295,57 @@ window.addEventListener('DOMContentLoaded', () => {
 		}, 4000);
 	}
 
-	// fetch('http://localhost:3000/menu')
-	// 	.then(data => data.json())
-	// 	.then(res => console.log(res));
+
+	//slider 
+
+	const slides = document.querySelectorAll('.offer__slide'),
+	      prev = document.querySelector('.offer__slider-prev'), 
+		  next = document.querySelector('.offer__slider-next'),
+		  total = document.querySelector('#total'),
+		  current = document.querySelector('#current');
+	let slideIndex = 1;
+
+	showSlides(slideIndex);
+
+	if (slides.length < 10) {   
+		//если количество слайдов больше чем 10 то подставляем нолик в значение текущего слайда для отображения на странице
+		total.textContent = `0${slides.length}`;
+	} else {
+		total.textContent = slides.length;
+	}
+
+	function showSlides(n) {
+		if (n > slides.length) {   //если текущий слайд больше общего кол-ва слайдов то переходить на первый слайд
+			slideIndex = 1;
+		}
+
+		if (n < 1) {
+			slideIndex = slides.length;  //если текущий слайд уходит в минус то переходим в конец слайдера
+		}
+
+		slides.forEach(item => item.style.display = 'none'); //скрываем все слайды
+		slides[slideIndex - 1].style.display = 'block'; //показываем только текущий слайд
+
+		if (slides.length < 10) {   
+			current.textContent = `0${slideIndex}`;
+		} else {
+			current.textContent = slideIndex;
+		}
+
+
+	} 
+
+	function plusSlides(n) {		// переключатель слайдеров
+		showSlides(slideIndex += n);
+	}
+
+	prev.addEventListener('click', () => {
+		plusSlides(-1);
+	});
+	next.addEventListener('click', () => {
+		plusSlides(1);
+	});
+
+
+
 });
