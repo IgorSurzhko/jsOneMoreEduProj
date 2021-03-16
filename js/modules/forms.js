@@ -1,9 +1,10 @@
 import {closeModal, openModal} from './modal';
+import {postData} from '../services/services';
 
-function forms(modalTimerId) {
+function forms(formsSelector, modalTimerId) {
     // FORMS, here Am working with OPEN_SERVER (localhost)
 
-    const forms = document.querySelectorAll('form');
+    const forms = document.querySelectorAll(formsSelector);
 
     const message = {
         loading: 'img/form/spinner.svg',
@@ -14,24 +15,12 @@ function forms(modalTimerId) {
     forms.forEach(item => {
         bindPostData(item);
     });
-    // тут фетч апишка, запрос на сервер через урлу (fetch возвращает ПРОМИС)
-    const postData = async (url, data) => { //асинк - говорим что тут асинхронный код
-        const res = await fetch(url, { // операторы асинк и аваит всегда в паре, аваит говорит чего ждет асинк
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: data
-        });
-
-        return await res.json(); //тоже ждать пока все преобразуется в жисон
-    };
     
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault(); // отмена ребута страницы
 
-            const statusMessage = document.createElement('img'); //
+            let statusMessage = document.createElement('img'); //
             statusMessage.src = message.loading; // вывод спиннера загрузки из массива message
             statusMessage.style.cssText = `
 				display: block;

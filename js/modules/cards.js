@@ -1,3 +1,5 @@
+import {getResource} from '../services/services';
+
 function cards() {
     
 	// использование классов для карточек
@@ -44,19 +46,6 @@ function cards() {
 			this.parent.append(element);
 		}
 	}
-
-
-	const getResource = async (url) => { 
-		const res = await fetch(url);
-
-		if (!res.ok) { //.ok - это свойство промиса вернувшегося и fetch
-			throw new Error(`Could not fetch ${url}, status: ${res.status}`); 
-			//throw дословно выбрасывает объект ошибки
- 		}
-
-		return await res.json(); 
-	};
-
 	getResource('http://localhost:3000/menu')
 		.then(data => {
 			data.forEach(({img, altimg, title, descr, price}) => {

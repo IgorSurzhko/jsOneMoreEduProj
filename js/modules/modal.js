@@ -33,7 +33,7 @@ function modal(triggerSelector, modalSelector, modalTimerId) {
 
     // если кликаем во всю область modal и если НЕ КОНКРЕТНО в modal dialog тогда закрываем весь попап
     modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.getAttribute('data-close') == '') {
+        if (e.target === modal || e.target.getAttribute('data-close') == "") {
             closeModal(modalSelector);
         }
     });
