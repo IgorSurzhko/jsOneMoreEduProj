@@ -1,4 +1,3 @@
-
 import tabs from './modules/tabs';
 import modal from './modules/modal';
 import timer from './modules/timer';
@@ -20,7 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	timer('.timer', '2021-10-01'); 
 	cards();
 	calc();
-	forms('.form', modalTimerId);
+	forms('form', modalTimerId);
 	slider({
 		container: '.offer__slider',
         slide: '.offer__slide',

@@ -788,7 +788,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
  
 
 
@@ -803,7 +802,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	(0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__.default)('.timer', '2021-10-01'); 
 	(0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__.default)();
 	(0,_modules_calc__WEBPACK_IMPORTED_MODULE_4__.default)();
-	(0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__.default)('.form', modalTimerId);
+	(0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__.default)('form', modalTimerId);
 	(0,_modules_slider__WEBPACK_IMPORTED_MODULE_6__.default)({
 		container: '.offer__slider',
         slide: '.offer__slide',
